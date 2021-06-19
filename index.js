@@ -3,7 +3,7 @@
 const $setNameForm = document.querySelector("#js-setName");
 const $gameModeForm = document.querySelector("#js-gameMode"),
   $aboutHero = document.querySelector('#js-aboutHero');
-const initialHero = {
+const initialHero = {//주인공 생성
   name: '',
   level: 1,
   hp: 100,
@@ -25,11 +25,23 @@ const getName = (event) => { //hero name 입력
   gameMode();
 }
 
+const handleGameMode = (event) => {
+  event.preventDefault();
+  const menuBtn = event.target;
+  console.log(menuBtn.id);
+  if(menuBtn.id === 1){//1.모험
+
+  }else if(menuBtn.id === 2){//2.휴식
+
+  }else if(menuBtn.id === 3){//3.end
+
+  }
+}
 
 
 function init() {
   $setNameForm.addEventListener('submit', getName); //hero name 입력
-  //주인공 생성
+  $gameModeForm.addEventListener('click', handleGameMode);//game mode
 }
 
 init();
