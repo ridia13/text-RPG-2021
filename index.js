@@ -1,10 +1,10 @@
 "use strict";
 
 const $setNameForm = document.querySelector("#js-setName");
-const $gameModeForm = document.querySelector("#js-gameMode"),
-  $aboutHero = document.querySelector('#js-aboutHero');
+const $aboutHero = document.querySelector('#js-aboutHero');
+const $gameModeForm = document.querySelector("#js-gameMode");
 const $battleModeForm = document.querySelector("#js-battleMode"),
-$aboutMonster = document.querySelector('#js-aboutMonster');
+  $aboutMonster = $battleModeForm.querySelector('#js-aboutMonster');
 const $exitMsg = document.querySelector("#js-exitMsg");
 const initialHero = { //주인공 생성
   name: '',
@@ -18,19 +18,20 @@ const initialHero = { //주인공 생성
 function Monster(name, level) { //monster 생성 
   this.name = name;
   this.level = level;
-  this.maxHp = this.level * 20;
-  this.hp = this.maxHp;
+  this.hp = this.level * 20;
+  this.maxHp = this.hp;
   this.att = this.level * 2;
+  this.xp = this.att + 5;
 }
-
 const monster1 = new Monster('GreenSnail', 5);
 const monster2 = new Monster('Slime', 10);
 const monster3 = new Monster('RibbonPig', 20);
-
-const monsters = [monster1, monster2, monster3];
+const monsterList = [monster1, monster2, monster3];
 let currentMonster;
+
 const gameMode = () => {
-  $aboutHero.textContent = `Name : ${initialHero.name}, Level : ${initialHero.level}, Hp : ${initialHero.hp} / ${initialHero.maxHp}, Xp : ${initialHero.xp} / ${initialHero.level* 15} , Att : ${initialHero.att} `;
+  $aboutHero.textContent = `${initialHero.name}, Level${initialHero.level}, HP: ${initialHero.hp}/${initialHero.maxHp}, XP: ${initialHero.xp}/${initialHero.level* 15} , Att: ${initialHero.att} `;
+  $aboutHero.style.display = "block";
   $gameModeForm.style.display = "block";
 }
 
@@ -42,13 +43,14 @@ const getName = (event) => { //hero name 입력
   gameMode();
 }
 
-const random = Math.floor(Math.random() * monsters.length);
 const handleGameMode = (event) => {
   event.preventDefault();
   const menuBtn = event.target;
+  const random = Math.floor(Math.random() * monsterList.length);
   if (menuBtn.id === '1') { //1.모험
-    currentMonster = monsters[random]; //random monster 생성
-    $aboutMonster.textContent = `Name : ${currentMonster.name}, Level : ${currentMonster.level}, Hp : ${currentMonster.hp}, Att : ${currentMonster.att} `;
+    const randomMonster = JSON.parse(JSON.stringify(monsterList[random]));
+    currentMonster = randomMonster //random monster 생성
+    $aboutMonster.textContent = `${currentMonster.name}, HP: ${currentMonster.hp}/${currentMonster.maxHp}`;
     $gameModeForm.style.display = "none";
     $battleModeForm.style.display = "block";
   } else if (menuBtn.id === '2') { //2.휴식
@@ -59,7 +61,6 @@ const handleGameMode = (event) => {
     $exitMsg.style.display = "block";
   }
 }
-
 
 function init() {
   $setNameForm.addEventListener('submit', getName); //hero name 입력
