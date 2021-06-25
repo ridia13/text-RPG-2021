@@ -32,7 +32,7 @@ class Game {
     ];
     this.start();
   }
-  start() {
+  start() {//게임과 관련된 것들
     $gameModeForm.addEventListener('click', this.onGameMenuInput);
     $battleModeForm.addEventListener('click', this.onBattleMenuInput);
     this.changeScreen('game');
@@ -55,13 +55,14 @@ class Game {
   }
   onGameMenuInput = (event) => {
     event.preventDefault();
+    const game = this;
     const menuBtn = event.target;
     const random = Math.floor(Math.random() * monsterList.length);
     if (menuBtn.id === '1') { //1.모험
       /*const randomMonster = JSON.parse(JSON.stringify(monsterList[random]));
       currentMonster = randomMonster //random monster 생성
       $aboutMonster.textContent = `${currentMonster.name}, HP: ${currentMonster.hp}/${currentMonster.maxHp}`;*/
-      this.changeScreen('battle');
+      game.changeScreen('battle');
     } else if (menuBtn.id === '2') { //2.휴식
       initialHero.hp = initialHero.maxHp;
     } else if (menuBtn.id === '3') { //3.end
