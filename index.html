@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,27 +8,39 @@
   <link rel="stylesheet" href="style.css">
   <title>text-RPG-21</title>
 </head>
+
 <body>
   <form id="js-setName" style="display: block;">
     <h3>Please enter the hero's name.</h3>
     <input id="hero-name" type="text">
     <input type="submit" value="start">
   </form>
-  <div id="js-aboutHero" style="display: none;"></div>
+  <div id="js-aboutHero" style="display: none;">
+    <span id="js-name"></span>
+    <span id="js-lev"></span>
+    <span id="js-hp"></span>
+    <span id="js-xp"></span>
+    <span id="js-att"></span>
+  </div>
   <form id="js-gameMode" style="display: none;">
     <button id="1">Adventure</button>
     <button id="2">Rest</button>
     <button id="3">End Game</button>
   </form>
   <form id="js-battleMode" style="display: none;">
-    <div id="js-aboutMonster"></div>
+    <div id="js-aboutMonster">
+      <span id="js-mName"></span>
+      <span id="js-mHp"></span>
+      <span id="js-mAtt"></span>
+    </div>
     <button id="1">Attack</button>
     <button id="2">Recover</button>
     <button id="3">Run away</button>
   </form>
-  <p id="js-msg" style="display: none;"></p>
+  <p id="js-msg" style="display: block;"></p>
   <!-- <script src="index.js"></script> -->
-  <script src="index -class.js"></script> 
+  <script src="index -class.js"></script>
   <!-- <script src="index-class2.js"></script> -->
 </body>
+
 </html>
