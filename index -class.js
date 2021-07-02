@@ -90,12 +90,11 @@ class Game {
       this.showMessage(`I ran into a monster. I think it's a ${this.monster.name}.`);
     } else if (menuBtn.id === '2') { //2.휴식
       hero.hp = hero.maxHp;
-      this.showMessage(`I recovered all my strength.`);
       this.updateHeroStat();
+      this.showMessage(`I recovered all my strength.`);
     } else if (menuBtn.id === '3') { //3.end
-      $gameModeForm.style.display = "none";
-      $msg.textContent = "Exit the game.";
-      $msg.style.display = "block";
+      this.showMessage(``);
+      this.gameOver();
     }
   }
   onBattleMenuInput = (event) => {
@@ -194,26 +193,34 @@ class Game {
   }
 }
 
-class Hero {
-  constructor(game, name) {
+class Unit {
+  constructor(name, game, hp, xp, att) {
     this.name = name;
     this.game = game;
-    this.lev = 1;
-    this.maxHp = 100;
     this.hp = 100;
     this.xp = 0;
     this.att = 10;
-    this.recover = 20;
-    this.game.updateHeroStat() //updateHeroStat 방법2
   }
   attack(target) {
     target.hp -= this.att;
   }
+}
+
+class Hero extends Unit {
+  constructor(game, name) {
+    super(name,game, 100, 0, 10);
+    this.lev = 1;
+    this.maxHp = 100;
+    this.recover = 20;
+    this.game.updateHeroStat() //updateHeroStat 방법2
+  }
   heal(monster) {
-    this.hp += this.recover;
+    console.log(this.hp);
+    this.hp = Math.min(this.hp + this.recover, this.maxHp);
+    console.log(this.hp);
     this.hp -= monster.att;
   }
-  getXp( monster) {
+  getXp(monster) {
     this.xp += monster.xp;
     if (this.xp >= this.lev * 15) {
       this.xp -= this.lev * 15;
@@ -227,17 +234,10 @@ class Hero {
   }
 }
 
-class Monster {
+class Monster extends Unit{
   constructor(game, name, hp, xp, att) { //monster 생성 
-    this.game = game;
-    this.name = name;
+    super(name, game, hp, xp, att);
     this.maxHp = hp;
-    this.hp = hp;
-    this.xp = xp;
-    this.att = att;
-  }
-  attack(target) {
-    target.hp -= this.att;
   }
 }
 
