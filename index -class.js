@@ -43,8 +43,8 @@ class Game {
     this.start(name);
   }
   start(name) { //게임과 관련된 것들
-    $gameModeForm.addEventListener('click', this.onGameMenuInput);
-    $battleModeForm.addEventListener('click', this.onBattleMenuInput);
+    $gameModeForm.addEventListener('click', this.onGameMenuClick);
+    $battleModeForm.addEventListener('click', this.onBattleMenuClick);
     this.changeScreen('game');
     this.hero = new Hero(this, name);
     this.updateHeroStat(); //updateHeroStat 방법1
@@ -67,14 +67,14 @@ class Game {
     }
 
   }
-  onGameMenuInput = (event) => {
+  onGameMenuClick = (event) => {
     event.preventDefault();
     const game = this;
     const {
       hero
     } = this;
     const menuBtn = event.target;
-    if (menuBtn.id === '1') { //1.모험
+    if (menuBtn.id === 'game1') { //1.모험
       game.changeScreen('battle');
       const randomIndex = Math.floor(Math.random() * this.monsterList.length);
       const randomMonster = this.monsterList[randomIndex];
@@ -88,35 +88,35 @@ class Game {
       this.updateHeroStat();
       this.updateMonsterStat();
       this.showMessage(`I ran into a monster. I think it's a ${this.monster.name}.`);
-    } else if (menuBtn.id === '2') { //2.휴식
+    } else if (menuBtn.id === 'game2') { //2.휴식
       hero.hp = hero.maxHp;
       this.updateHeroStat();
-      this.showMessage(`I recovered all my strength.`);
-    } else if (menuBtn.id === '3') { //3.end
+      this.showMessage(`I recovered all my HP.`);
+    } else if (menuBtn.id === 'game3') { //3.end
       this.showMessage(``);
       this.gameOver();
     }
   }
-  onBattleMenuInput = (event) => {
+  onBattleMenuClick = (event) => {
     event.preventDefault();
     const menuBtn = event.target;
     const {
       hero,
       monster
     } = this;
-    if (menuBtn.id === '1') { //1.공격
+    if (menuBtn.id === 'battle1') { //1.공격
       hero.attack(monster);
       monster.attack(hero);
       this.checkHp();
       this.updateHeroStat();
       this.updateMonsterStat();
-    } else if (menuBtn.id === '2') { //2.회복
+    } else if (menuBtn.id === 'battle2') { //2.회복
       hero.heal(monster);
       this.checkHp();
       this.showMessage(`I recovered my HP by ${hero.recover}.`);
       this.updateHeroStat();
       this.updateMonsterStat();
-    } else if (menuBtn.id === '3') { //3.도망
+    } else if (menuBtn.id === 'battle3') { //3.도망
       this.showMessage(`Let's run away!!`);
       this.changeScreen('game');
     }
@@ -142,7 +142,6 @@ class Game {
     $heroXp.textContent = `XP: ${hero.xp}/${hero.lev*15}`;
     $heroHeal.textContent = `HEAL: ${hero.recover}`;
     $heroAtt.textContent = `ATT: ${hero.att}`;
-    console.log(hero);
   }
   updateMonsterStat() {
     const {
@@ -161,7 +160,6 @@ class Game {
   }
   showMessage(text) {
     $msg.textContent = text;
-    console.log(`msg`);
   }
   gameOver() {
     //초기화
@@ -215,9 +213,7 @@ class Hero extends Unit {
     this.game.updateHeroStat() //updateHeroStat 방법2
   }
   heal(monster) {
-    console.log(this.hp);
     this.hp = Math.min(this.hp + this.recover, this.maxHp);
-    console.log(this.hp);
     this.hp -= monster.att;
   }
   getXp(monster) {
@@ -236,7 +232,10 @@ class Hero extends Unit {
 
 class Monster extends Unit{
   constructor(game, name, hp, xp, att) { //monster 생성 
-    super(name, game, hp, xp, att);
+    super(name, game);
+    this.hp = hp;
+    this.xp = xp;
+    this.att = att;
     this.maxHp = hp;
   }
 }
